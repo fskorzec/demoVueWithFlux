@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <style>
+    .globalContainer {
+      position: fixed;
+      top            : 0px          ;
+      left           : 0px          ;
+      right          : 0px          ;
+      top            : 0px          ;
+      display        : flex         ;
+      flex-direction : row          ;
+      justify-content: space-evenly ;
+    }
+
+    .channelItem {
+      flex      : 1     ;
+      max-width : 450px ;
+    }
+
+    .header {
+      min-height  : 130px               ;
+      border      : 1px solid #000000 ;
+      font-weight : bolder              ;
+      padding     : 15px                ;
+
+    }
+
+    .msg_1 {
+      color      : blue;
+      font-style : italic;
+    }
+
+    .msg_2 {
+      color       : green ;
+      font-weight : bold    ;
+    }
+
+    .msg_3 {
+      color: blueviolet;
+    }
+
+  </style>
+</head>
+<body>
+  <div id="app">
+    <channels v-bind:channels="channels"></channels>
+  </div>
+  <script src="js/App.js"></script>
+</body>
+</html>

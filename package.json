@@ -1,0 +1,21 @@
+{
+  "name": "demoFluxVue",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "shadow-flux": "^2.0.10"
+  },
+  "devDependencies": {
+    "http-server": "^0.12.3",
+    "typescript": "^3.9.5",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
