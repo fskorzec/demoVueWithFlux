@@ -7,7 +7,7 @@ import { ChatAppStore, IChatAppState }  from "./Stores/ChatApp" ;
 // We need to instanciate one Dispatcher for the whole Application
 const dispatcher = new Flux.Dispatcher();
 // We have to expose a way to subscribe and publish
-// So the Subscriber will decorate teh Dispatcher to expose only what teh app needs
+// So the Subscriber will decorate the Dispatcher to expose only what the app needs
 const subscriber = new Flux.Subscriber(dispatcher);
 
 // We instanciate all the stores here
@@ -24,7 +24,7 @@ dispatcher.register(messageStore , "MESSAGE");
 dispatcher.register(chatAppStore , "APP");
 
 // This part is not mandatory, it is just a simple trick for the demo to 
-// Allows all action to be executed with the Subscriber context as the THIS context
+// Allows all actione to be executed with the Subscriber context as the THIS context
 [channelActions, userActions, messageActions].forEach(_ => {
   for(const i in _) {
     _[i] = _[i].bind(subscriber);

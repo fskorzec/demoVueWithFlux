@@ -33,7 +33,7 @@ export class ChannelStore extends Flux.BaseStore<IChannelStoreState> {
 }
 
 /**
- * Here some typing information si TS can enforce type checking
+ * Here some typing informations si TS can enforce type checking
  */
 export type TChannel = {
   id    : number;

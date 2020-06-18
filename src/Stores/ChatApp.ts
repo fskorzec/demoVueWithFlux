@@ -18,17 +18,17 @@ export class ChatAppStore extends Flux.BaseStore<IChatAppState> {
 
   /**
    * Here we will not use the strategy pattern to call action handler
-   * We can use the global dispatch handle because we want to catch all actions
+   * We use the global dispatch handle because we want to catch all actions
    */
   dispatchHandler: Flux.DispatchHandler = async function(this: ChatAppStore, _, __, ___, For) {
-    // We used the await For to tell the dispatcher that we want all the other store
+    // We use the await For to tell the dispatcher that we want all the other stores
     // To proceed before us, so we can use the result of their state here
     // The data is always up to date for us
     await For("USER", "MESSAGE", "CHANNEL");
 
     this.nextState(o => {
-        // Here we do the necessary stuff tto update teh data needed for the application
-        // This store ose is to handle all Application states
+        // Here we do the necessary stuff to update the data needed the application
+        // This store purpose is to handle all Application states
         const channels  = this.getStoreStateByToken<IChannelStoreState>("CHANNEL").channels;
         const users     = this.getStoreStateByToken<IUserStoreState>("USER").users;
         const messages  = this.getStoreStateByToken<IMessageStoreState>("MESSAGE").messages.sort((a, b) => a.timestamp - b.timestamp);

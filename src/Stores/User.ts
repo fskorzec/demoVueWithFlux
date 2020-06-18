@@ -16,10 +16,10 @@ export class UserStore extends Flux.BaseStore<IUserStoreState> {
   }
 
   /**
-   * In ordeer to automatically call a method
+   * In order to automatically call a method
    * the method should be named action{ActionType}
    * 
-   * So to thandle the _AddUser action, you need to create a method named action_AddUser
+   * So to handle the _AddUser action, you need to create a method named action_AddUser
    */
   action_AddUser: Flux.DispatchHandler = async function (this: UserStore ,payload: TAddUserAction)  {
     this.nextState(current => {

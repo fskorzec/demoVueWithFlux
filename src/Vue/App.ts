@@ -33,7 +33,7 @@ const vueApp = new Vue({
   },
   mounted: function () {
     /**
-     * Here is WHERE you need to subscribe to receive 
+     * Here is WHERE you need to subscribe to receive data
      */
     Flux.subscriber.subscribe<Flux.IChatAppState>("APP", state => {
       this.channels = state.channels;

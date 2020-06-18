@@ -16,7 +16,7 @@ export type TMessage = {
   body      : string;
 }
 
-// Actiosn definition
+// Actions definition
 export type TAddMessageAction = {
   type: "_AddMessage"
 } & TMessage;
