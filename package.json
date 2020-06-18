@@ -13,7 +13,10 @@
     "webpack-cli": "^3.3.11"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "serve": "npx hs ./www",
+    "build": "npx tsc -w",
+    "pk": "npx webpack --entry ./out/Vue/App.js --output ./www/js/App.js -w"
+
   },
   "keywords": [],
   "author": "",
