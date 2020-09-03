@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
-    "shadow-flux": "^2.0.10"
+    "shadow-flux": "^3.0.0-beta.2"
   },
   "devDependencies": {
     "http-server": "^0.12.3",
@@ -16,7 +16,6 @@
     "serve": "npx hs ./www",
     "build": "npx tsc -w",
     "pk": "npx webpack --entry ./out/Vue/App.js --output ./www/js/App.js -w"
-
   },
   "keywords": [],
   "author": "",

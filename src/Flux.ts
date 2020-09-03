@@ -1,4 +1,4 @@
-import * as Flux                        from "shadow-flux"      ;
+/*import * as Flux                        from "shadow-flux"      ;
 import { ChannelStore, channelActions } from "./Stores/Channel" ;
 import { UserStore, userActions }       from "./Stores/User"    ;
 import { MessageStore, messageActions } from "./Stores/Message" ;
@@ -30,6 +30,7 @@ dispatcher.register(chatAppStore , "APP");
     _[i] = _[i].bind(subscriber);
   }
 });
+*/
 
 /**
  * Here we need to export only what can be consumed
@@ -38,7 +39,7 @@ dispatcher.register(chatAppStore , "APP");
  * So the subcriber will allow to retreive data through Subscription
  * 
  * All actions are wrapped in actions methods to simplify the use
- */
+ *//*
 export {
   subscriber     ,
   channelActions ,
@@ -46,3 +47,5 @@ export {
   messageActions ,
   IChatAppState
 };
+
+*/

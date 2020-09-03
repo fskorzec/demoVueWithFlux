@@ -1,36 +1,35 @@
-import * as Flux from "shadow-flux";
+import {BaseStore, registerStore, withEvents, TAwaitFor, TActionReturn} from "shadow-flux";
 
 // Store state
 export interface IChannelStoreState {
   channels: Array<TChannel>;
 }
 
-export class ChannelStore extends Flux.BaseStore<IChannelStoreState> {
-  // Mandatory method to initialize the state
-  protected initState(): void {
+const events = withEvents({
+  All:""
+});
+
+const actions = {
+  async action_AddChannel(this: BaseStore<IChannelStoreState>, payload: TAddChannelAction) {
+    const newState = this.getState();
+    newState.channels?.push(payload);
+    this.nextState(newState);
+  },
+  async action_RemoveChannel(this: BaseStore<IChannelStoreState>, payload: TRemoveChannelAction)  {
+    const newState = this.getState();
+    newState.channels = this.getState().channels.filter(_ => _.id !== payload.channelId);
+  }
+}
+
+export default registerStore<IChannelStoreState, typeof actions, typeof events>({
+  init(this: BaseStore<IChannelStoreState>) {
     this.nextState({
       channels: []
     })
-  }
-
-  // Method that will be triggered when the action <_AddChannel> is dispatched
-  action_AddChannel: Flux.DispatchHandler = async function (this: ChannelStore ,payload: TAddChannelAction)  {
-    this.nextState(current => {
-      current.channels?.push(payload);
-      return current; // keeping ref so can be modified outside the store, be carefull
-    });
-    this.emit();
-  };
-
-  action_RemoveChannel: Flux.DispatchHandler = async function (this: ChannelStore ,payload: TRemoveChannelAction)  {
-    this.nextState(current => {
-      current.channels = current.channels.filter(_ => _.id !== payload.channelId);
-      return current; // keeping ref so can be modified outside the store, be carefull
-    });
-    this.emit();
-  };
-  
-}
+  },
+  actions,
+  events
+})
 
 /**
  * Here some typing informations si TS can enforce type checking
@@ -41,22 +40,9 @@ export type TChannel = {
 }
 
 export type TAddChannelAction = {
-  type: "_AddChannel";
 } & TChannel
 
 export type TRemoveChannelAction = {
-  type      : "_RemoveChannel";
   channelId : number;
 }
 
-/**
- * Here we expose methods that wrap sending action to the dispatcher
- */
-export const channelActions = {
-  addChannel(channel: Partial<TChannel>) {
-    (<Flux.Subscriber>this).sendAction("_AddChannel", channel);
-  },
-  removeChannel(channelId: number) {
-    (<Flux.Subscriber>this).sendAction({type:"_RemoveChannel", channelId} as TRemoveChannelAction);
-  } 
-}

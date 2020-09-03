@@ -1,7 +1,9 @@
 import * as Flux    from "shadow-flux";
-import { TChannel, IChannelStoreState, channelActions } from "./Channel";
-import { TUser, IUserStoreState, userActions }    from "./User";
-import { TMessage, IMessageStoreState, messageActions } from "./Message";
+import ChannelStore, { TChannel } from "./Channel";
+import UserStore, { TUser } from "./User";
+import MessageStore, { TMessage } from "./Message";
+import {BaseStore, registerStore, withEvents, TAwaitFor, TActionReturn} from "shadow-flux";
+
 
 export interface IChatAppState {
   channels : Array<TFullChannel>;
@@ -9,45 +11,41 @@ export interface IChatAppState {
 
 export type TFullChannel = TChannel & { users: Array<TUser>; messages: Array<TMessage> };
 
-export class ChatAppStore extends Flux.BaseStore<IChatAppState> {
-  protected initState(): void {
-    this.nextState({
-      channels : []
-    })
-  }
-
-  /**
-   * Here we will not use the strategy pattern to call action handler
-   * We use the global dispatch handle because we want to catch all actions
-   */
-  dispatchHandler: Flux.DispatchHandler = async function(this: ChatAppStore, _, __, ___, For) {
+const actions = {
+  async dispatchHandler(this: BaseStore<IChatAppState>, payload, For: TAwaitFor) {
+    console.log(payload)
     // We use the await For to tell the dispatcher that we want all the other stores
     // To proceed before us, so we can use the result of their state here
     // The data is always up to date for us
-    await For("USER", "MESSAGE", "CHANNEL");
+    // await For(UserStore.id, MessageStore.id, ChannelStore.id);
+    console.log(payload)
 
-    this.nextState(o => {
-        // Here we do the necessary stuff to update the data needed the application
-        // This store purpose is to handle all Application states
-        const channels  = this.getStoreStateByToken<IChannelStoreState>("CHANNEL").channels;
-        const users     = this.getStoreStateByToken<IUserStoreState>("USER").users;
-        const messages  = this.getStoreStateByToken<IMessageStoreState>("MESSAGE").messages.sort((a, b) => a.timestamp - b.timestamp);
-      
-        return {
-          channels: channels.map((c: TFullChannel) => {
-            c.messages = messages.filter(m => m.channel === c.id).map(m => {
-              return {
-                ...m,
-                userName: users.filter(u => u.id === m.author)[0].name
-              }
-            });
-            c.users    = users.filter(u => u.channels.indexOf(c.id) !== -1);
-            return c;
-          })
-        };
-    });
+    const channels = ChannelStore.getState().channels                                           ;
+    const users    = UserStore.getState().users                                                 ;
+    const messages = MessageStore.getState().messages.sort((a, b) => a.timestamp - b.timestamp) ;
 
-    // Here we notify the client control that an update is ready, so the rendering can be updated
-    this.emit();
+    const newState = {
+      channels: channels.map((c: TFullChannel) => {
+        c.messages = messages.filter(m => m.channel === c.id).map(m => {
+          return {
+            ...m,
+            userName: users.filter(u => u.id === m.author)[0].name
+          }
+        });
+        c.users = users.filter(u => u.channels.indexOf(c.id) !== -1);
+        return c;
+      })
+    };
+
+    this.nextState(newState);
   }
 }
+
+export default registerStore<IChatAppState, typeof actions, any>({
+  async init(this: BaseStore<IChatAppState>) {
+    this.nextState({
+      channels : []
+    });
+  },
+  actions
+})

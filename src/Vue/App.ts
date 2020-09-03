@@ -1,9 +1,10 @@
-import * as Flux        from "../Flux"           ;
 import { TFullChannel } from "../Stores/ChatApp" ;
-import { Subscriber }   from "shadow-flux"       ;
-declare var Vue: any;
+import ChannelStore     from "../Stores/Channel" ;
+import UserStore        from "../Stores/User"    ;
+import MessageStore     from "../Stores/Message" ;
+import ChatAppStore     from "../Stores/ChatApp" ;
 
-window["Flux"] = Flux;
+declare var Vue: any;
 
 Vue.component('channels', {
   template: `
@@ -35,9 +36,9 @@ const vueApp = new Vue({
     /**
      * Here is WHERE you need to subscribe to receive data
      */
-    Flux.subscriber.subscribe<Flux.IChatAppState>("APP", state => {
+    ChatAppStore.subscribeTo.All(state => {
       this.channels = state.channels;
-    });
+    })
 
     setTimeout(() => {
       fakeData();
@@ -54,46 +55,48 @@ function fakeData() {
    * FAKE data to show how propagate data to the dispatcher when the websocket emits data
    */
   const actions = [];
-  actions.push(() => Flux.channelActions.addChannel({
+  actions.push(() => ChannelStore.actions.action_AddChannel({
     id: 1,
     name: "Channel 1"
   }));
 
-  actions.push(() => Flux.channelActions.addChannel({
+  actions.push(() => ChannelStore.actions.action_AddChannel({
     id: 2,
     name: "Channel 2"
   }));
 
   actions.push(() => {
-      Flux.userActions.addUser({
+      UserStore.actions.action_AddUser({
       id: 1,
       name: "User 1"
     });
-    Flux.userActions.addUser({
+    UserStore.actions.action_AddUser({
       id: 2,
       name: "User 2"
     });
-    Flux.userActions.addUser({
+    UserStore.actions.action_AddUser({
       id: 3,
       name: "User 3"
     });
   });
 
-  actions.push(() => Flux.userActions.addUserToChannel(1, 1));
-  actions.push(() => Flux.userActions.addUserToChannel(2, 1));
+  actions.push(() => UserStore.actions.action_AddUserToChannel({userId: 1, channelId: 1}));
+  actions.push(() =>UserStore.actions.action_AddUserToChannel({userId: 2, channelId: 1}));
 
-  actions.push(() => Flux.messageActions.addMessage({
+  actions.push(() => MessageStore.actions.action_AddMessage({
+    timestamp: new Date().getTime(),
     id: 0,
     author: 1,
     channel: 1,
     body: "Hello user 2"
   }));
 
-  actions.push(() => Flux.userActions.addUserToChannel(2, 2));
-  actions.push(() => Flux.userActions.addUserToChannel(3, 2));
+  actions.push(() => UserStore.actions.action_AddUserToChannel({userId: 2, channelId: 2}));
+  actions.push(() => UserStore.actions.action_AddUserToChannel({userId: 3, channelId: 2}));
 
 
-  actions.push(() => Flux.messageActions.addMessage({
+  actions.push(() => MessageStore.actions.action_AddMessage({
+    timestamp: new Date().getTime(),
     id: 1,
     author: 2,
     channel: 1,
@@ -101,14 +104,16 @@ function fakeData() {
   }));
 
   actions.push(() => {
-    Flux.messageActions.addMessage({
+    MessageStore.actions.action_AddMessage({
+      timestamp: new Date().getTime(),
       id: 2,
       author: 2,
       channel: 2,
       body: "Hello User 3 !!"
     });
 
-    Flux.messageActions.addMessage({
+    MessageStore.actions.action_AddMessage({
+      timestamp: new Date().getTime(),
       id: 2,
       author: 1,
       channel: 1,
@@ -118,22 +123,24 @@ function fakeData() {
 
 
 
-  actions.push(() => Flux.messageActions.addMessage({
+  actions.push(() => MessageStore.actions.action_AddMessage({
+    timestamp: new Date().getTime(),
     id: 3,
     author: 2,
     channel: 2,
     body: "User 1 say hello to you"
   }));
 
-  actions.push(() => Flux.messageActions.addMessage({
+  actions.push(() => MessageStore.actions.action_AddMessage({
+    timestamp: new Date().getTime(),
     id: 4,
     author: 3,
     channel: 2,
     body: "Hello user 2, thanks !"
   }));
 
-  actions.push(() => Flux.channelActions.removeChannel(2));
-  actions.push(() => Flux.channelActions.removeChannel(1));
+  actions.push(() => MessageStore.actions.action_RemoveChannel({channelId: 2}));
+  actions.push(() => MessageStore.actions.action_RemoveChannel({channelId: 1}));
   actions.push(() => setTimeout(() => {
     fakeData()
   }, 1000));

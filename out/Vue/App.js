@@ -1,26 +1,12 @@
 "use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const Flux = __importStar(require("../Flux"));
-window["Flux"] = Flux;
+const Channel_1 = __importDefault(require("../Stores/Channel"));
+const User_1 = __importDefault(require("../Stores/User"));
+const Message_1 = __importDefault(require("../Stores/Message"));
+const ChatApp_1 = __importDefault(require("../Stores/ChatApp"));
 Vue.component('channels', {
     template: `
   <div class="globalContainer">
@@ -48,9 +34,9 @@ const vueApp = new Vue({
     },
     mounted: function () {
         /**
-         * Here is WHERE you need to subscribe to receive
+         * Here is WHERE you need to subscribe to receive data
          */
-        Flux.subscriber.subscribe("APP", state => {
+        ChatApp_1.default.subscribeTo.All(state => {
             this.channels = state.channels;
         });
         setTimeout(() => {
@@ -66,72 +52,78 @@ function fakeData() {
      * FAKE data to show how propagate data to the dispatcher when the websocket emits data
      */
     const actions = [];
-    actions.push(() => Flux.channelActions.addChannel({
+    actions.push(() => Channel_1.default.actions.action_AddChannel({
         id: 1,
         name: "Channel 1"
     }));
-    actions.push(() => Flux.channelActions.addChannel({
+    actions.push(() => Channel_1.default.actions.action_AddChannel({
         id: 2,
         name: "Channel 2"
     }));
     actions.push(() => {
-        Flux.userActions.addUser({
+        User_1.default.actions.action_AddUser({
             id: 1,
             name: "User 1"
         });
-        Flux.userActions.addUser({
+        User_1.default.actions.action_AddUser({
             id: 2,
             name: "User 2"
         });
-        Flux.userActions.addUser({
+        User_1.default.actions.action_AddUser({
             id: 3,
             name: "User 3"
         });
     });
-    actions.push(() => Flux.userActions.addUserToChannel(1, 1));
-    actions.push(() => Flux.userActions.addUserToChannel(2, 1));
-    actions.push(() => Flux.messageActions.addMessage({
+    actions.push(() => User_1.default.actions.action_AddUserToChannel({ userId: 1, channelId: 1 }));
+    actions.push(() => User_1.default.actions.action_AddUserToChannel({ userId: 2, channelId: 1 }));
+    actions.push(() => Message_1.default.actions.action_AddMessage({
+        timestamp: new Date().getTime(),
         id: 0,
         author: 1,
         channel: 1,
         body: "Hello user 2"
     }));
-    actions.push(() => Flux.userActions.addUserToChannel(2, 2));
-    actions.push(() => Flux.userActions.addUserToChannel(3, 2));
-    actions.push(() => Flux.messageActions.addMessage({
+    actions.push(() => User_1.default.actions.action_AddUserToChannel({ userId: 2, channelId: 2 }));
+    actions.push(() => User_1.default.actions.action_AddUserToChannel({ userId: 3, channelId: 2 }));
+    actions.push(() => Message_1.default.actions.action_AddMessage({
+        timestamp: new Date().getTime(),
         id: 1,
         author: 2,
         channel: 1,
         body: "Hello user 1"
     }));
     actions.push(() => {
-        Flux.messageActions.addMessage({
+        Message_1.default.actions.action_AddMessage({
+            timestamp: new Date().getTime(),
             id: 2,
             author: 2,
             channel: 2,
             body: "Hello User 3 !!"
         });
-        Flux.messageActions.addMessage({
+        Message_1.default.actions.action_AddMessage({
+            timestamp: new Date().getTime(),
             id: 2,
             author: 1,
             channel: 1,
             body: "Say hello to user 3 for me"
         });
     });
-    actions.push(() => Flux.messageActions.addMessage({
+    actions.push(() => Message_1.default.actions.action_AddMessage({
+        timestamp: new Date().getTime(),
         id: 3,
         author: 2,
         channel: 2,
         body: "User 1 say hello to you"
     }));
-    actions.push(() => Flux.messageActions.addMessage({
+    actions.push(() => Message_1.default.actions.action_AddMessage({
+        timestamp: new Date().getTime(),
         id: 4,
         author: 3,
         channel: 2,
         body: "Hello user 2, thanks !"
     }));
-    actions.push(() => Flux.channelActions.removeChannel(2));
-    actions.push(() => Flux.channelActions.removeChannel(1));
+    actions.push(() => Message_1.default.actions.action_RemoveChannel({ channelId: 2 }));
+    actions.push(() => Message_1.default.actions.action_RemoveChannel({ channelId: 1 }));
     actions.push(() => setTimeout(() => {
         fakeData();
     }, 1000));

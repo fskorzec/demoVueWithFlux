@@ -1,6 +1,8 @@
 import * as Flux from "shadow-flux";
 import { TRemoveUserAction } from "./User";
 import { TRemoveChannelAction } from "./Channel";
+import {BaseStore, registerStore, withEvents, TAwaitFor, TActionReturn} from "shadow-flux";
+
 
 // Store state
 export interface IMessageStoreState {
@@ -18,72 +20,46 @@ export type TMessage = {
 
 // Actions definition
 export type TAddMessageAction = {
-  type: "_AddMessage"
 } & TMessage;
 
 
 export type TRemoveMessageAction = {
-  type: "_RemoveMessage";
   messageId: number;
 };
 
-export class MessageStore extends Flux.BaseStore<IMessageStoreState> {
-  protected initState(): void {
+const actions = {
+  async action_AddMessage(this: BaseStore<IMessageStoreState> ,payload: TAddMessageAction)  {
     this.nextState({
-      messages: []
-    })
-  }
-
-  // Method that will be triggered when the action <_AddMessage> is dispatched
-  action_AddMessage: Flux.DispatchHandler = async function (this: MessageStore ,payload: TAddMessageAction)  {
-    this.nextState(current => {
-      current.messages?.push(payload);
-      return current; // keeping ref so can be modified outside the store, be carefull
+      messages: [...this.getState().messages, payload]
     });
-    this.emit();
-  };
+  },
 
   /**
    * This store can handle action that were defined for the User store too
    * Each store can handle an action, so an action is not made for only one store
    */
-  action_RemoveUser: Flux.DispatchHandler = async function (this: MessageStore ,payload: TRemoveUserAction)  {
-    this.nextState(current => {
-      current.messages = current.messages.filter(_ => _.author !== payload.userId)
-      return current; // keeping ref so can be modified outside the store, be carefull
+  async action_RemoveUser(this: BaseStore<IMessageStoreState>,payload: TRemoveUserAction)  {
+    this.nextState({
+      messages: this.getState().messages.filter(_ => _.author !== payload.userId)
     });
-    this.emit();
-  };
-
-  action_RemoveMessage: Flux.DispatchHandler = async function (this: MessageStore ,payload: TRemoveMessageAction)  {
-    this.nextState(current => {
-      current.messages = current.messages.filter(_ => _.id !== payload.messageId)
-      return current; // keeping ref so can be modified outside the store, be carefull
-    });
-    this.emit();
-  };
-
-  action_RemoveChannel: Flux.DispatchHandler = async function (this: MessageStore ,payload: TRemoveChannelAction)  {
-    this.nextState(current => {
-      current.messages = current.messages.filter(_ => _.channel !== payload.channelId);
-      return current; // keeping ref so can be modified outside the store, be carefull
-    });
-    this.emit();
-  };
-}
-
-/**
- * Here we expose methods that wrap sending action to the dispatcher
- */
-export const messageActions = {
-  addMessage(message: Partial<TMessage>): void {
-    message.timestamp = performance.now();
-    (<Flux.Subscriber>this).sendAction("_AddMessage", message);
   },
-  removeMessage(messageId: number): void {
-    (<Flux.Subscriber>this).sendAction({
-      type: "_RemoveMessage",
-      messageId
-    } as TRemoveMessageAction);
-  } 
+  async action_RemoveMessage(this: BaseStore<IMessageStoreState>,payload: TRemoveMessageAction)  {
+    this.nextState({
+      messages: this.getState().messages.filter(_ => _.id !== payload.messageId)
+    });
+  },
+  async action_RemoveChannel(this: BaseStore<IMessageStoreState>,payload: TRemoveChannelAction)  {
+    this.nextState({
+      messages: this.getState().messages.filter(_ => _.channel !== payload.channelId)
+    });
+  }
 }
+
+export default registerStore<IMessageStoreState, typeof actions, any>({ 
+  async init(this: BaseStore<IMessageStoreState>) {
+    this.nextState({
+      messages:[]
+    });
+  },  
+  actions 
+});
