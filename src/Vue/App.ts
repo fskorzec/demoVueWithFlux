@@ -42,7 +42,7 @@ const vueApp = new Vue({
 
     setTimeout(() => {
       fakeData();
-    }, 1500);
+    }, 200);
   }
 })
 
@@ -143,11 +143,11 @@ function fakeData() {
   actions.push(() => MessageStore.actions.action_RemoveChannel({channelId: 1}));
   actions.push(() => setTimeout(() => {
     fakeData()
-  }, 1000));
+  }, 200));
   
   actions.forEach((_, i) => {
     setTimeout(() => {
       actions.shift()();
-    }, (1000 * i));
+    }, (200 * i));
   })
 }

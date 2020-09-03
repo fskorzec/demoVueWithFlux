@@ -19,12 +19,11 @@ const shadow_flux_1 = require("shadow-flux");
 const actions = {
     dispatchHandler(payload, For) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log(payload);
             // We use the await For to tell the dispatcher that we want all the other stores
             // To proceed before us, so we can use the result of their state here
             // The data is always up to date for us
             // await For(UserStore.id, MessageStore.id, ChannelStore.id);
-            console.log(payload);
+            yield For(Message_1.default.id, User_1.default.id, Channel_1.default.id);
             const channels = Channel_1.default.getState().channels;
             const users = User_1.default.getState().users;
             const messages = Message_1.default.getState().messages.sort((a, b) => a.timestamp - b.timestamp);

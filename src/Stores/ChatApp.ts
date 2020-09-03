@@ -13,12 +13,11 @@ export type TFullChannel = TChannel & { users: Array<TUser>; messages: Array<TMe
 
 const actions = {
   async dispatchHandler(this: BaseStore<IChatAppState>, payload, For: TAwaitFor) {
-    console.log(payload)
     // We use the await For to tell the dispatcher that we want all the other stores
     // To proceed before us, so we can use the result of their state here
     // The data is always up to date for us
     // await For(UserStore.id, MessageStore.id, ChannelStore.id);
-    console.log(payload)
+    await For(MessageStore.id, UserStore.id, ChannelStore.id);
 
     const channels = ChannelStore.getState().channels                                           ;
     const users    = UserStore.getState().users                                                 ;

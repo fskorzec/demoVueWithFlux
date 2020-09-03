@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
-    "shadow-flux": "^3.0.0-beta.2"
+    "shadow-flux": "^3.0.0-beta.3"
   },
   "devDependencies": {
     "http-server": "^0.12.3",
