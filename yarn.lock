@@ -1334,9 +1334,9 @@ inherits@2.0.3:
   integrity sha1-Yzwsg+PaQqUC9SRmAiSA9CCCYd4=
 
 ini@^1.3.4, ini@^1.3.5:
-  version "1.3.5"
-  resolved "https://registry.yarnpkg.com/ini/-/ini-1.3.5.tgz#eee25f56db1c9ec6085e0c22778083f596abf927"
-  integrity sha512-RZY5huIKCMRWDUqZlEi72f/lmXKMvuszcMBduliQ3nnWbx9X/ZBQO7DijMEYS9EhHBb2qacRUMtC7svLwe0lcw==
+  version "1.3.8"
+  resolved "https://registry.yarnpkg.com/ini/-/ini-1.3.8.tgz#a29da425b48806f34767a4efce397269af28432c"
+  integrity sha512-JV/yugV2uzW5iMRSiZAyDtQd+nxtUnjeLt0acNdw98kKLrvuRVyB80tsREOE7yvGVgalhZ6RNXCmEHkUKBKxew==
 
 interpret@^1.4.0:
   version "1.4.0"
@@ -2267,10 +2267,10 @@ sha.js@^2.4.0, sha.js@^2.4.8:
     inherits "^2.0.1"
     safe-buffer "^5.0.1"
 
-shadow-flux@^3.0.0-beta.2:
-  version "3.0.0-beta.2"
-  resolved "https://registry.yarnpkg.com/shadow-flux/-/shadow-flux-3.0.0-beta.2.tgz#cc34694828c6308a6ecfcda1dacf5533aee90613"
-  integrity sha512-SyUQEMpHVMrMk+XxCaDV5AA8ouNJW9Tp/MpyhkbOSfy+JuOEjCYgMqhgE43Nb1JZMoHCRtXhcStD+F3yaLHdlA==
+shadow-flux@^3.0.0-beta.3:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/shadow-flux/-/shadow-flux-3.0.1.tgz#d624ad89abd5a6db343ccd833eb1db6f01444814"
+  integrity sha512-gC/E2S3Rq8p4ZNWS67ym3LQvTYWSrX2xBewyFSMTqY7tRj59pNAJ55U6XYB0Eb7NqfQXsRMlGHgxmBItJ+KpSw==
 
 shebang-command@^1.2.0:
   version "1.2.0"
