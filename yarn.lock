@@ -2267,10 +2267,10 @@ sha.js@^2.4.0, sha.js@^2.4.8:
     inherits "^2.0.1"
     safe-buffer "^5.0.1"
 
-shadow-flux@^3.0.0-beta.2:
-  version "3.0.0-beta.2"
-  resolved "https://registry.yarnpkg.com/shadow-flux/-/shadow-flux-3.0.0-beta.2.tgz#cc34694828c6308a6ecfcda1dacf5533aee90613"
-  integrity sha512-SyUQEMpHVMrMk+XxCaDV5AA8ouNJW9Tp/MpyhkbOSfy+JuOEjCYgMqhgE43Nb1JZMoHCRtXhcStD+F3yaLHdlA==
+shadow-flux@^3.0.0-beta.3:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/shadow-flux/-/shadow-flux-3.0.2.tgz#62209780f1f9ee3560705f846203d8511ebc8f76"
+  integrity sha512-UAGY6P8WH0Dh9X6ZpY4IAVeQklcPQGDtlVmJIfc+X64EJ/FiHzXAvYYXaeeQJyupPVPYy+0MTvTGH4crqMd/oA==
 
 shebang-command@^1.2.0:
   version "1.2.0"
@@ -2361,9 +2361,9 @@ split-string@^3.0.1, split-string@^3.0.2:
     extend-shallow "^3.0.0"
 
 ssri@^6.0.1:
-  version "6.0.1"
-  resolved "https://registry.yarnpkg.com/ssri/-/ssri-6.0.1.tgz#2a3c41b28dd45b62b63676ecb74001265ae9edd8"
-  integrity sha512-3Wge10hNcT1Kur4PDFwEieXSCMCJs/7WvSACcrMYrNp+b8kDL1/0wJch5Ni2WrtwEa2IO8OsVfeKIciKCDx/QA==
+  version "6.0.2"
+  resolved "https://registry.yarnpkg.com/ssri/-/ssri-6.0.2.tgz#157939134f20464e7301ddba3e90ffa8f7728ac5"
+  integrity sha512-cepbSq/neFK7xB6A50KHN0xHDotYzq58wWCa5LeWqnPrHG8GzfEjO/4O8kpmcGW+oaxkvhEJCWgbgNk4/ZV93Q==
   dependencies:
     figgy-pudding "^3.5.1"
 
